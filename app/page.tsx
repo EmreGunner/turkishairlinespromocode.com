@@ -16,6 +16,7 @@ import ThreeDHeroSection from "@/components/3dHeroSection";
 import PromoCard from "@/components/PromoCard";
 import Footer from "@/components/Footer";
 import DisclaimerBanner from "@/components/DisclaimerBanner";
+import allPromos from "@/lib/data/promos";
 
 const categories = [
   "All",
@@ -27,32 +28,8 @@ const categories = [
 ];
 
 const promos = [
-  {
-    id: 1,
-    code: "AHLAN25",
-    discount: "25% OFF",
-    category: "International",
-    description: "From Morocco to various destinations in Türkiye",
-    validUntil: "2024-11-15",
-    bookingPeriod: {
-      start: "2024-10-01",
-      end: "2024-11-15"
-    },
-    travelPeriod: {
-      start: "2024-10-01",
-      end: "2025-03-20"
-    },
-    destinations: [
-      "İstanbul", "Antalya", "Bodrum", "Rize", "Trabzon", 
-      "Samsun", "Kastamonu", "Ankara", "Denizli", "Kayseri", "Kars"
-    ],
-    applicableRoutes: "From Morocco to various destinations in Türkiye",
-    terms: "Valid for Economy and Business Class, one-way or round-trip tickets.",
-    additionalInfo: "The discount applies only to the base fare and does not include taxes and surcharges. The promotion is not applicable for departure flights between December 19, 2024 – January 12, 2025.",
-    lastChecked: "2024-02-20",
-    blackoutDates: ["2024-12-19/2025-01-12"]
-  },
-  // Add more promos with the same structure
+  ...allPromos.filter(promo => promo.id <= 7),
+  ...allPromos.filter(promo => promo.id > 7)
 ];
 
 // Update the PromoCard interface
