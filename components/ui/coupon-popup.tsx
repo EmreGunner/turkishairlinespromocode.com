@@ -90,7 +90,7 @@ export function CouponPopup({
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-gray-500" />
               <div>
-                <p className="text-sm font-medium">Booking Period</p>
+                <p className="text-sm font-medium">{t('promo.bookingPeriod')}</p>
                 <p className="text-sm text-gray-600">
                   {new Date(bookingPeriod.start).toLocaleDateString()} - {new Date(bookingPeriod.end).toLocaleDateString()}
                 </p>
