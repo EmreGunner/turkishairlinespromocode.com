@@ -40,5 +40,4 @@ export function useTranslation(locale: 'en' | 'tr' | 'ar' = 'en') {
   return { t };
 }
 
-// Add type safety for translation keys
 export type { TranslationKey };
