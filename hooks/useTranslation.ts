@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback } from 'react';
-import { en, tr } from '@/translations';
+import { translations } from '@/lib/i18n/translations';
 
 // Define the structure of your translations
-type TranslationType = typeof en;
+type TranslationType = typeof translations.en;
 
 // Helper type to get all possible nested paths
 type NestedKeys<T> = T extends object 
@@ -18,12 +18,12 @@ type NestedKeys<T> = T extends object
 
 type TranslationKey = NestedKeys<TranslationType>;
 
-export function useTranslation(locale: 'en' | 'tr' = 'en') {
-  const translations = locale === 'en' ? en : tr;
+export function useTranslation(locale: 'en' | 'tr' | 'ar' = 'en') {
+  const currentTranslations = translations[locale];
 
   const t = useCallback((key: TranslationKey) => {
     const keys = key.split('.');
-    let value: any = translations;
+    let value: any = currentTranslations;
 
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
@@ -35,7 +35,7 @@ export function useTranslation(locale: 'en' | 'tr' = 'en') {
     }
 
     return value as string;
-  }, [translations]);
+  }, [currentTranslations]);
 
   return { t };
 }

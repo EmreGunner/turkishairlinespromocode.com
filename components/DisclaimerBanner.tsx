@@ -1,12 +1,17 @@
+"use client";
+
 import { AlertTriangle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function DisclaimerBanner() {
+  const { t } = useTranslation();
+
   return (
-    <Alert className="rounded-none border-l-4 border-yellow-500 bg-yellow-50 sticky top-0 z-50">
+    <Alert className="rounded-none border-b bg-yellow-50/50 border-yellow-100">
       <AlertTriangle className="h-4 w-4 text-yellow-600" />
       <AlertDescription className="text-yellow-800">
-        This website is not affiliated with Turkish Airlines. We are an independent service that helps travelers find the best deals.
+        {t('disclaimer')}
       </AlertDescription>
     </Alert>
   );

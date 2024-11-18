@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Check, Copy, Calendar, Info, Clock } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { Calendar, Copy, Check, AlertTriangle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface CouponPopupProps {
   isOpen: boolean;
@@ -25,117 +26,106 @@ interface CouponPopupProps {
   };
 }
 
-export function CouponPopup({ 
-  isOpen, 
-  onClose, 
-  code, 
-  discount, 
+export function CouponPopup({
+  isOpen,
+  onClose,
+  code,
+  discount,
   description,
   additionalInfo,
   blackoutDates,
   lastChecked,
   bookingPeriod,
-  travelPeriod
+  travelPeriod,
 }: CouponPopupProps) {
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(code);
+    setCopied(true);
+    toast({
+      title: t('promo.copied'),
+      description: code,
+      duration: 2000,
     });
-  };
-
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopied(true);
-      toast({
-        title: "Code copied!",
-        description: "The promo code has been copied to your clipboard.",
-        duration: 3000,
-      });
-      setTimeout(() => {
-        setCopied(false);
-        onClose();
-      }, 1500);
-    } catch (err) {
-      toast({
-        title: "Failed to copy",
-        description: "Please try copying the code manually.",
-        variant: "destructive",
-      });
-    }
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Your Promo Code</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">{discount}</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col space-y-6 py-4">
-          <div className="text-center space-y-2">
-            <div className="text-2xl font-bold text-[#E81932]">{discount}</div>
-            <p className="text-sm text-gray-500">{description}</p>
-          </div>
-          
-          <div className="relative w-full max-w-sm mx-auto">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-              <code className="font-mono text-lg font-semibold text-gray-900">
-                {code}
-              </code>
-              <Button
-                size="sm"
-                onClick={copyToClipboard}
-                variant={copied ? "default" : "outline"}
-                className={`ml-2 ${copied ? 'bg-green-600 hover:bg-green-700' : ''}`}
-              >
-                {copied ? (
-                  <>
-                    <Check className="h-4 w-4 mr-1" />
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-4 w-4 mr-1" />
-                    Copy
-                  </>
-                )}
-              </Button>
+        
+        <div className="space-y-6 pt-4">
+          <div className="space-y-2">
+            <p className="text-gray-600">{description}</p>
+            
+            <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
+              <div className="flex items-center justify-between">
+                <code className="text-lg font-mono font-bold text-[#E81932]">
+                  {code}
+                </code>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCopy}
+                  className="flex items-center gap-2"
+                >
+                  {copied ? (
+                    <Check className="h-4 w-4" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
+                  {copied ? t('promo.copied') : t('promo.copyCode')}
+                </Button>
+              </div>
             </div>
           </div>
 
-          {/* Additional Information */}
-          <div className="space-y-4 bg-gray-50 p-4 rounded-lg text-sm">
-            <div className="flex items-start gap-2">
-              <Calendar className="h-4 w-4 mt-0.5 shrink-0 text-gray-400" />
-              <div className="space-y-1">
-                <p>Book by: {formatDate(bookingPeriod.end)}</p>
-                <p className="text-gray-500">
-                  Travel period: {formatDate(travelPeriod.start)} - {formatDate(travelPeriod.end)}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-gray-500" />
+              <div>
+                <p className="text-sm font-medium">Booking Period</p>
+                <p className="text-sm text-gray-600">
+                  {new Date(bookingPeriod.start).toLocaleDateString()} - {new Date(bookingPeriod.end).toLocaleDateString()}
                 </p>
               </div>
             </div>
 
-            {blackoutDates && blackoutDates.length > 0 && (
+            <div className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-gray-500" />
+              <div>
+                <p className="text-sm font-medium">Travel Period</p>
+                <p className="text-sm text-gray-600">
+                  {new Date(travelPeriod.start).toLocaleDateString()} - {new Date(travelPeriod.end).toLocaleDateString()}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {blackoutDates && blackoutDates.length > 0 && (
+            <div className="bg-yellow-50 p-4 rounded-lg">
               <div className="flex items-start gap-2">
-                <Clock className="h-4 w-4 mt-0.5 shrink-0 text-amber-500" />
-                <p className="text-amber-600">
-                  Blackout dates: {blackoutDates.join(', ').replace('/', ' to ')}
-                </p>
+                <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-yellow-800">Blackout Dates</p>
+                  <p className="text-sm text-yellow-700">
+                    {blackoutDates.join(', ')}
+                  </p>
+                </div>
               </div>
-            )}
-
-            <div className="flex items-start gap-2">
-              <Info className="h-4 w-4 mt-0.5 shrink-0 text-gray-400" />
-              <p className="text-gray-600">{additionalInfo}</p>
             </div>
+          )}
 
-            <p className="text-xs text-gray-400 mt-4">
-              Last verified: {formatDate(lastChecked)}
+          <div className="text-sm text-gray-500">
+            <p>{additionalInfo}</p>
+            <p className="mt-2">
+              Last checked: {new Date(lastChecked).toLocaleDateString()}
             </p>
           </div>
         </div>
