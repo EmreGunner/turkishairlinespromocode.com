@@ -1,31 +1,44 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { translations } from '@/lib/i18n/translations';
+import { useCallback } from 'react';
+import { en, tr } from '@/translations';
 
-type Language = 'en' | 'tr' | 'ar';
+// Define the structure of your translations
+type TranslationType = typeof en;
 
-export function useTranslation() {
-  const [lang, setLang] = useState<Language>('en');
+// Helper type to get all possible nested paths
+type NestedKeys<T> = T extends object 
+  ? { [K in keyof T]: K extends string 
+      ? T[K] extends object 
+        ? `${K}.${NestedKeys<T[K]>}` 
+        : K 
+      : never 
+    }[keyof T] 
+  : never;
 
-  const t = (key: string) => {
+type TranslationKey = NestedKeys<TranslationType>;
+
+export function useTranslation(locale: 'en' | 'tr' = 'en') {
+  const translations = locale === 'en' ? en : tr;
+
+  const t = useCallback((key: TranslationKey) => {
     const keys = key.split('.');
-    let value = translations[lang];
-    
+    let value: any = translations;
+
     for (const k of keys) {
-      if (value && typeof value === 'object') {
-        value = value[k];
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k as keyof typeof value];
+      } else {
+        console.warn(`Translation key not found: ${key}`);
+        return key;
       }
     }
-    
-    return value || key;
-  };
 
-  const changeLanguage = (newLang: Language) => {
-    setLang(newLang);
-    document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = newLang;
-  };
+    return value as string;
+  }, [translations]);
 
-  return { t, lang, changeLanguage };
+  return { t };
 }
+
+// Add type safety for translation keys
+export type { TranslationKey };
