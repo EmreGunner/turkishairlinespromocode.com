@@ -1,12 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Plane, Tag, Clock, Filter, AlertTriangle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Search, Plane, Tag, Clock, AlertTriangle } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import PromoCard from "@/components/PromoCard";
-import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Select,
   SelectContent,
@@ -14,58 +10,74 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import ThreeDHeroSection from "@/components/3dHeroSection";
+import PromoCard from "@/components/PromoCard";
 import Footer from "@/components/Footer";
 import DisclaimerBanner from "@/components/DisclaimerBanner";
 
-// Move data to separate files in a real application
-const categories = ["All", "International", "Domestic", "Student", "Business", "Seasonal"];
+const categories = [
+  "All",
+  "International",
+  "Domestic",
+  "Student",
+  "Business",
+  "Seasonal",
+];
 
 const promos = [
   {
     id: 1,
-    code: "TK2024SPRING",
-    discount: "20% OFF",
-    category: "International",
-    description: "Spring season discount on international flights",
-    validUntil: "2024-05-31",
-    terms: "Valid for international flights only. Blackout dates apply.",
-    destinations: ["Europe", "Asia", "Americas"],
-    minimumPurchase: "$500",
-  },
-  {
-    id: 2,
-    code: "STUDENT25",
+    code: "AHLAN25",
     discount: "25% OFF",
-    category: "Student",
-    description: "Special student discount on all routes",
-    validUntil: "2024-12-31",
-    terms: "Must present valid student ID at check-in.",
-    destinations: ["All Routes"],
-    minimumPurchase: "$200",
+    category: "International",
+    description: "From Morocco to various destinations in Türkiye",
+    validUntil: "2024-11-15",
+    bookingPeriod: {
+      start: "2024-10-01",
+      end: "2024-11-15"
+    },
+    travelPeriod: {
+      start: "2024-10-01",
+      end: "2025-03-20"
+    },
+    destinations: [
+      "İstanbul", "Antalya", "Bodrum", "Rize", "Trabzon", 
+      "Samsun", "Kastamonu", "Ankara", "Denizli", "Kayseri", "Kars"
+    ],
+    applicableRoutes: "From Morocco to various destinations in Türkiye",
+    terms: "Valid for Economy and Business Class, one-way or round-trip tickets.",
+    additionalInfo: "The discount applies only to the base fare and does not include taxes and surcharges. The promotion is not applicable for departure flights between December 19, 2024 – January 12, 2025.",
+    lastChecked: "2024-02-20",
+    blackoutDates: ["2024-12-19/2025-01-12"]
   },
-  {
-    id: 3,
-    code: "BUSINESS15",
-    discount: "15% OFF",
-    category: "Business",
-    description: "Business class upgrade discount",
-    validUntil: "2024-06-30",
-    terms: "Valid for business class bookings only.",
-    destinations: ["International Routes"],
-    minimumPurchase: "$1000",
-  },
-  {
-    id: 4,
-    code: "SUMMER2024",
-    discount: "30% OFF",
-    category: "Seasonal",
-    description: "Summer vacation special offer",
-    validUntil: "2024-08-31",
-    terms: "Valid for economy and business class. Cannot be combined with other offers.",
-    destinations: ["Europe", "Mediterranean"],
-    minimumPurchase: "$400",
-  },
+  // Add more promos with the same structure
 ];
+
+// Update the PromoCard interface
+interface Promo {
+  id: number;
+  code: string;
+  discount: string;
+  category: string;
+  description: string;
+  validUntil: string;
+  bookingPeriod: {
+    start: string;
+    end: string;
+  };
+  travelPeriod: {
+    start: string;
+    end: string;
+  };
+  destinations: string[];
+  applicableRoutes: string;
+  terms: string;
+  additionalInfo: string;
+  lastChecked: string;
+  blackoutDates?: string[];
+}
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -73,6 +85,15 @@ export default function Home() {
   const [sortBy, setSortBy] = useState("discount");
   const [isSearching, setIsSearching] = useState(false);
 
+  // Handle scroll to content when clicking scroll indicator
+  const handleScrollToContent = () => {
+    const contentSection = document.getElementById('content-section');
+    if (contentSection) {
+      contentSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Filter and sort promos
   const filteredPromos = promos
     .filter((promo) => 
       (selectedCategory === "All" || promo.category === selectedCategory) &&
@@ -92,44 +113,28 @@ export default function Home() {
   }, [searchQuery]);
 
   return (
-    <>
+    <main className="min-h-screen">
       <DisclaimerBanner />
-      <main className="min-h-screen bg-gray-50">
-        {/* Hero Section */}
+      
+      <ThreeDHeroSection onScrollClick={handleScrollToContent} />
+
+      <section id="content-section" className="bg-gray-50">
         <div className="bg-gradient-to-r from-[#E81932] to-[#C41230] text-white">
-          <div className="container mx-auto px-4 py-16 md:py-24">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Turkish Airlines Promo Codes
-              </h1>
-              <p className="text-lg md:text-xl mb-8 opacity-90">
-                Find and save on your next journey with our curated collection of deals
-              </p>
-              <div className="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                  <Input
-                    placeholder="Search by destination, code, or description..."
-                    className="pl-10 bg-white/90 text-gray-900 w-full"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-full md:w-[180px] bg-white/90">
-                    <SelectValue placeholder="Sort by" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="discount">Highest Discount</SelectItem>
-                    <SelectItem value="expiry">Expiring Soon</SelectItem>
-                  </SelectContent>
-                </Select>
+          <div className="container mx-auto px-4 py-16">
+            <div className="max-w-4xl mx-auto">
+              <div className="relative flex-1">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
+                <Input
+                  placeholder="Search by destination, code, or description..."
+                  className="pl-12 h-14 bg-white/95 text-gray-900 w-full text-lg rounded-xl border-2 border-white/20 focus:border-white/40 transition-all shadow-lg"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Stats Section */}
         <div className="container mx-auto px-4 -mt-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
             {[
@@ -148,47 +153,67 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-7xl mx-auto">
-            {/* Category Filters */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              {categories.map((category) => (
-                <Badge
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  className={`cursor-pointer transition-all duration-200 ${
-                    selectedCategory === category
-                      ? "bg-[#E81932] hover:bg-[#C41230]"
-                      : "hover:border-[#E81932]"
-                  }`}
-                  onClick={() => setSelectedCategory(category)}
-                >
-                  {category}
-                </Badge>
-              ))}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <Badge
+                    key={category}
+                    variant={selectedCategory === category ? "default" : "outline"}
+                    className={`cursor-pointer transition-all duration-200 text-sm py-2 px-4 ${
+                      selectedCategory === category
+                        ? "bg-[#E81932] hover:bg-[#C41230] text-white"
+                        : "hover:border-[#E81932] hover:text-[#E81932]"
+                    }`}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
+                  </Badge>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 bg-white rounded-lg p-2 shadow-sm border border-gray-100">
+                <span className="text-sm text-gray-500 font-medium px-2">Sort by:</span>
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-[160px] border-0 bg-transparent focus:ring-0 focus:ring-offset-0 text-gray-700">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="discount" className="text-sm">
+                      <div className="flex items-center gap-2">
+                        <Tag className="h-4 w-4" />
+                        Highest Discount
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="expiry" className="text-sm">
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4" />
+                        Expiring Soon
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
-            {/* Search Results Info */}
             {isSearching && (
-              <div className="mb-6">
+              <div className="mb-6 bg-white/50 backdrop-blur-sm rounded-lg p-3 border border-gray-100">
                 <p className="text-gray-600">
-                  Found {filteredPromos.length} results for "{searchQuery}"
+                  Found <span className="font-semibold text-[#E81932]">{filteredPromos.length}</span> results for "<span className="font-medium">{searchQuery}</span>"
                 </p>
               </div>
             )}
 
-            {/* No Results Message */}
             {filteredPromos.length === 0 && (
-              <Alert className="mb-6">
-                <AlertTriangle className="h-4 w-4" />
-                <AlertDescription>
+              <Alert className="mb-6 border-[#E81932]/20 bg-[#E81932]/5">
+                <AlertTriangle className="h-4 w-4 text-[#E81932]" />
+                <AlertDescription className="text-gray-700">
                   No promo codes found. Try adjusting your search or filters.
                 </AlertDescription>
               </Alert>
             )}
 
-            {/* Promo Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredPromos.map((promo) => (
                 <PromoCard key={promo.id} promo={promo} />
@@ -196,8 +221,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </main>
+      </section>
+
       <Footer />
-    </>
+    </main>
   );
 }

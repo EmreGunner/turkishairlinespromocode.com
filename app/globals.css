@@ -10,7 +10,7 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 0 72% 51%;  /* Turkish Airlines Red */
+    --primary: 0 72% 51%;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
@@ -25,7 +25,7 @@
     --ring: 0 72% 51%;
     --radius: 0.75rem;
   }
- 
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -47,19 +47,15 @@
     --input: 0 0% 14.9%;
     --ring: 0 72% 51%;
   }
+}
 
-  /* RTL Support */
-  [dir="rtl"] {
-    .ltr-only {
-      display: none;
-    }
-  }
+/* RTL Support */
+[dir="rtl"] .ltr-only {
+  display: none;
+}
 
-  [dir="ltr"] {
-    .rtl-only {
-      display: none;
-    }
-  }
+[dir="ltr"] .rtl-only {
+  display: none;
 }
 
 @layer base {
@@ -90,7 +86,7 @@
   animation: slideIn 0.3s ease-in-out;
 }
 
-/* Premium UI Enhancements */
+/* Premium UI Classes */
 .premium-shadow {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }

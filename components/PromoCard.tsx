@@ -1,26 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Check, Calendar, MapPin, DollarSign } from "lucide-react";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Calendar, MapPin } from "lucide-react";
+import { CouponPopup } from "@/components/ui/coupon-popup";
 import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import { useTranslation } from "@/hooks/useTranslation";
-import { useToast } from "@/components/ui/use-toast";
 
 interface PromoCardProps {
   promo: {
@@ -29,118 +14,119 @@ interface PromoCardProps {
     category: string;
     description: string;
     validUntil: string;
-    terms: string;
+    bookingPeriod: {
+      start: string;
+      end: string;
+    };
+    travelPeriod: {
+      start: string;
+      end: string;
+    };
     destinations: string[];
-    minimumPurchase: string;
+    applicableRoutes: string;
+    terms: string;
+    additionalInfo: string;
+    lastChecked: string;
+    blackoutDates?: string[];
   };
 }
 
 export default function PromoCard({ promo }: PromoCardProps) {
-  const { t } = useTranslation();
-  const { toast } = useToast();
-  const [copied, setCopied] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(promo.code);
-      setCopied(true);
-      toast({
-        title: t("promo.copied"),
-        duration: 2000,
-      });
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      toast({
-        title: "Failed to copy",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const isExpiringSoon = () => {
-    const daysUntilExpiry = Math.ceil(
-      (new Date(promo.validUntil).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
-    );
-    return daysUntilExpiry <= 30;
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   };
 
   return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg premium-shadow animate-fade-in">
-      <CardHeader className="premium-gradient text-white">
-        <div className="flex justify-between items-start">
-          <div>
-            <CardTitle className="text-2xl font-bold">{promo.discount}</CardTitle>
-            <CardDescription className="text-white/90 mt-1">
+    <>
+      <Card className="overflow-hidden transition-all hover:shadow-lg flex flex-col h-full group">
+        <CardHeader className="bg-gradient-to-r from-[#E81932] to-[#C41230] text-white p-6 relative">
+          <Badge variant="secondary" className="absolute top-4 right-4 bg-white/20 text-white border-none">
+            {promo.category}
+          </Badge>
+          <div className="space-y-2">
+            <h3 className="text-4xl font-bold tracking-tight">{promo.discount}</h3>
+            <p className="text-base text-white/90 font-medium leading-snug">
               {promo.description}
-            </CardDescription>
+            </p>
           </div>
-          <div className="flex flex-col gap-2">
-            <Badge variant="secondary" className="bg-white text-[#E81932]">
-              {promo.category}
-            </Badge>
-            {isExpiringSoon() && (
-              <Badge variant="secondary" className="bg-yellow-400 text-gray-900">
-                {t("promo.expiresSoon")}
-              </Badge>
-            )}
+        </CardHeader>
+        
+        <CardContent className="p-6 flex-grow space-y-6 bg-white">
+          <div className="flex items-start gap-3">
+            <div className="mt-1">
+              <Calendar className="h-5 w-5 text-[#E81932]" />
+            </div>
+            <div className="space-y-3">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-1">When to Book</h4>
+                <div className="inline-flex items-center px-2.5 py-1 rounded-full bg-blue-50 border border-blue-100">
+                  <span className="text-sm text-blue-700">
+                    Until {formatDate(promo.bookingPeriod.end)}
+                  </span>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-1">Travel Window</h4>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="px-2.5 py-1 rounded-full bg-green-50 border border-green-100">
+                    <span className="text-green-700">
+                      From {formatDate(promo.travelPeriod.start)}
+                    </span>
+                  </div>
+                  <span className="text-gray-400">→</span>
+                  <div className="px-2.5 py-1 rounded-full bg-green-50 border border-green-100">
+                    <span className="text-green-700">
+                      Until {formatDate(promo.travelPeriod.end)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent className="pt-6">
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Calendar className="h-4 w-4" />
-            <span>{t("promo.validUntil")} {new Date(promo.validUntil).toLocaleDateString()}</span>
+
+          <div className="flex items-start gap-3">
+            <div className="mt-1">
+              <MapPin className="h-5 w-5 text-[#E81932]" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="font-medium text-gray-900">Available Routes</h4>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {promo.applicableRoutes}
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <MapPin className="h-4 w-4" />
-            <span>{promo.destinations.join(", ")}</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <DollarSign className="h-4 w-4" />
-            <span>{t("promo.minPurchase")}: {promo.minimumPurchase}</span>
-          </div>
-          <div className="bg-gray-50 p-4 rounded-lg mt-4">
-            <p className="text-sm text-gray-600">{promo.terms}</p>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="bg-gray-50">
-        <div className="w-full flex items-center gap-3">
-          <div className="flex-1">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <code className="px-4 py-2 bg-white border rounded-md font-mono text-sm select-all">
-                    {promo.code}
-                  </code>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{t("promo.clickToCopy")}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-          <Button
-            onClick={copyToClipboard}
-            variant={copied ? "default" : "outline"}
-            className={cn(
-              "premium-button min-w-[120px]",
-              copied && "bg-green-600 hover:bg-green-700"
-            )}
+        </CardContent>
+
+        <CardFooter className="p-6 bg-gray-50 border-t">
+          <Button 
+            className="w-full bg-[#E81932] hover:bg-[#C41230] text-white h-12 text-base font-medium
+                       transition-all duration-200 group-hover:shadow-md"
+            onClick={() => setIsPopupOpen(true)}
           >
-            {copied ? (
-              <>
-                <Check className="h-4 w-4 mr-2" /> {t("promo.copied")}
-              </>
-            ) : (
-              <>
-                <Copy className="h-4 w-4 mr-2" /> {t("promo.copyCode")}
-              </>
-            )}
+            View & Copy Code
           </Button>
-        </div>
-      </CardFooter>
-    </Card>
+        </CardFooter>
+      </Card>
+
+      <CouponPopup
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+        code={promo.code}
+        discount={promo.discount}
+        description={promo.description}
+        additionalInfo={promo.additionalInfo}
+        blackoutDates={promo.blackoutDates}
+        lastChecked={promo.lastChecked}
+        bookingPeriod={promo.bookingPeriod}
+        travelPeriod={promo.travelPeriod}
+      />
+    </>
   );
 }
