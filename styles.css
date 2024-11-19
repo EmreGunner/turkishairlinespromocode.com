@@ -1,0 +1,63 @@
+/* Title styling */
+.title-container {
+  text-align: left;
+  padding: 2rem;
+}
+
+.airline-title {
+  color: #ffffff; /* Make title white */
+  font-size: 4rem;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Lighter shadow */
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.promo-text {
+  color: #e31837; /* Turkish Airlines red */
+  font-size: 3.5rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 0;
+}
+
+/* Explore button styling */
+.explore-button {
+  background-color: #e31837;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.explore-button:hover {
+  background-color: #c41230;
+}
+
+/* Background gradient */
+.hero-section {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Warning banner */
+.warning-banner {
+  background-color: #fff8e6;
+  color: #8b4513;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 0.875rem;
+} 

@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 
 interface PromoCardProps {
   promo: {
+    id: number;
     code: string;
     discount: string;
     category: string;
