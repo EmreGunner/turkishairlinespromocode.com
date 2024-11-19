@@ -7,6 +7,31 @@ const existingPromos = [
 const newPromos = [
   {
     id: 1,
+    code: "AHLAN25",
+    discount: "25% OFF",
+    category: "International",
+    description: "From Morocco to various destinations in Türkiye",
+    validUntil: "2024-11-15",
+    bookingPeriod: {
+      start: "2024-10-01",
+      end: "2024-11-15"
+    },
+    travelPeriod: {
+      start: "2024-10-01",
+      end: "2025-03-20"
+    },
+    destinations: [
+      "İstanbul", "Antalya", "Bodrum", "Rize", "Trabzon", 
+      "Samsun", "Kastamonu", "Ankara", "Denizli", "Kayseri", "Kars"
+    ],
+    applicableRoutes: "Valid on routes from Morocco to İstanbul, Antalya, Bodrum, Rize, Trabzon, Samsun, Kastamonu, Ankara, Denizli, Kayseri, Kars",
+    terms: "Valid for Economy and Business Class, one-way or round-trip tickets.",
+    additionalInfo: "The discount applies only to the base fare and does not include taxes and surcharges. The promotion is not applicable for departure flights between December 19, 2024 – January 12, 2025.",
+    lastChecked: "2024-02-20",
+    blackoutDates: ["2024-12-19/2025-01-12"]
+  },
+  {
+    id: 2,
     code: "TKUCL2024QF",
     discount: "20% OFF",
     category: "International",
@@ -24,14 +49,14 @@ const newPromos = [
       "London", "Madrid", "Paris", "Munich", "Manchester",
       "Barcelona", "Milan", "İstanbul"
     ],
-    applicableRoutes: "Valid on routes to cities hosting UEFA Champions League matches",
+    applicableRoutes: "Valid on routes to London, Madrid, Paris, Munich, Manchester, Barcelona, Milan, İstanbul",
     terms: "Valid for Economy and Business Class. Must show match ticket or fan club membership.",
     additionalInfo: "Discount applies to base fare only. Not valid for group bookings of more than 9 passengers.",
     lastChecked: "2024-03-14",
     blackoutDates: ["2024-04-19/2024-04-21"]
   },
   {
-    id: 2,
+    id: 3,
     code: "012TKM24",
     discount: "20% OFF Business, 15% OFF Economy",
     category: "Business",
@@ -55,7 +80,7 @@ const newPromos = [
     blackoutDates: ["2024-07-15/2024-08-31"]
   },
   {
-    id: 3,
+    id: 4,
     code: "135TKM24",
     discount: "15% OFF",
     category: "International",
@@ -73,14 +98,14 @@ const newPromos = [
       "Casablanca", "Marrakech", "Rabat", "İstanbul", "Antalya",
       "İzmir", "Ankara", "Bodrum"
     ],
-    applicableRoutes: "Valid on direct flights from Morocco to Turkey",
+    applicableRoutes: "Valid on direct flights from Casablanca, Marrakech, Rabat to İstanbul, Antalya, İzmir, Ankara, Bodrum",
     terms: "Valid for Economy and Business Class. Minimum stay: 3 days, maximum stay: 1 month",
     additionalInfo: "Complimentary stopover in İstanbul available on select routes",
     lastChecked: "2024-03-14",
     blackoutDates: ["2024-07-01/2024-08-31", "2024-12-20/2025-01-10"]
   },
   {
-    id: 4,
+    id: 5,
     code: "EXTRA10",
     discount: "10% OFF",
     category: "Domestic",
@@ -104,7 +129,7 @@ const newPromos = [
     blackoutDates: ["2024-07-15/2024-08-31", "2024-04-23", "2024-05-19"]
   },
   {
-    id: 5,
+    id: 6,
     code: "EXTRA15",
     discount: "15% OFF",
     category: "Seasonal",
@@ -122,14 +147,14 @@ const newPromos = [
       "London", "Paris", "Rome", "Amsterdam", "Vienna",
       "Prague", "Budapest", "Athens"
     ],
-    applicableRoutes: "Selected European routes",
+    applicableRoutes: "Selected routes to London, Paris, Rome, Amsterdam, Vienna, Prague, Budapest, Athens",
     terms: "Valid for Economy and Business Class. Minimum stay: 2 days",
     additionalInfo: "Includes free seat selection and extra baggage allowance",
     lastChecked: "2024-03-14",
     blackoutDates: ["2024-04-05/2024-04-10"]
   },
   {
-    id: 6,
+    id: 7,
     code: "TURKISH20",
     discount: "20% OFF",
     category: "Student",
@@ -153,7 +178,7 @@ const newPromos = [
     blackoutDates: ["2024-07-01/2024-08-31", "2024-12-15/2025-01-15"]
   },
   {
-    id: 7,
+    id: 8,
     code: "FLIGHT30",
     discount: "$30 OFF",
     category: "International",
@@ -171,7 +196,7 @@ const newPromos = [
       "New York", "Los Angeles", "Chicago", "San Francisco",
       "Miami", "Houston", "Toronto", "Vancouver"
     ],
-    applicableRoutes: "North American routes",
+    applicableRoutes: "North American routes to New York, Los Angeles, Chicago, San Francisco, Miami, Houston, Toronto, Vancouver",
     terms: "Valid for Economy and Business Class on flights over 8 hours duration",
     additionalInfo: "Combinable with Miles&Smiles member discounts",
     lastChecked: "2024-03-14",
@@ -180,6 +205,6 @@ const newPromos = [
 ];
 
 // Combine existing and new promos
-const allPromos = [...existingPromos, ...newPromos];
+const allPromos = [...newPromos, ...existingPromos];
 
 export default allPromos; 
