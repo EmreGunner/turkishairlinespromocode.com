@@ -76,7 +76,7 @@ export default function Home() {
       (selectedCategory === "All" || promo.category === selectedCategory) &&
       (promo.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
        promo.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-       promo.destinations.some(dest => dest.toLowerCase().includes(searchQuery.toLowerCase())))
+       promo.destinations.some((dest: string) => dest.toLowerCase().includes(searchQuery.toLowerCase())))
     )
     .sort((a, b) => {
       if (sortBy === "discount") {
