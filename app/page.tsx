@@ -15,7 +15,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import ThreeDHeroSection from "@/components/3dHeroSection";
 import PromoCard from "@/components/PromoCard";
 import Footer from "@/components/Footer";
-import DisclaimerBanner from "@/components/DisclaimerBanner";
 import allPromos from "@/lib/data/promos";
 
 const categories = [
@@ -91,8 +90,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
-      <DisclaimerBanner />
-      
+    
       <ThreeDHeroSection onScrollClick={handleScrollToContent} />
 
       <section id="content-section" className="bg-gray-50">

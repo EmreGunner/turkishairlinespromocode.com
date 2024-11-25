@@ -4,6 +4,8 @@
   import Script from 'next/script';
   import HeroPromoCard from './HeroPromoCard';
   import { Loader2 } from 'lucide-react';
+  import { cn } from "@/lib/utils";
+  import { useTranslation } from "@/hooks/useTranslation";
 
   interface ThreeDHeroSectionProps {
     onScrollClick: () => void;
@@ -29,6 +31,7 @@
   }
 
   export default function ThreeDHeroSection({ onScrollClick }: ThreeDHeroSectionProps) {
+    const { t } = useTranslation();
     const [isSplineLoaded, setIsSplineLoaded] = useState(false);
     const [hasError, setHasError] = useState(false);
 
@@ -40,6 +43,12 @@
 
     return (
       <section className="relative w-full h-screen bg-black overflow-hidden">
+        <div className="absolute top-0 left-0 w-full z-50 bg-amber-50 border-b border-amber-200">
+          <div className="container mx-auto px-4 py-2 text-amber-800 text-sm text-center">
+            {t('disclaimer.independent')}
+          </div>
+        </div>
+
         <Script 
           type="module" 
           src="https://unpkg.com/@splinetool/viewer@1.9.45/build/spline-viewer.js"
@@ -61,29 +70,42 @@
         </Suspense>
 
         <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none">
-          <div className="absolute top-0 left-0 w-2/3 h-full bg-gradient-to-r from-black/15 via-black/5 to-transparent" />
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/20 via-black/10 to-transparent" />
         </div>
 
-        <div className="relative z-30 container mx-auto px-4 pt-20 md:pt-32">
+        <div className="relative z-30 container mx-auto px-4 pt-28 md:pt-40 pointer-events-none">
           <div className="max-w-[800px]">
-            <h1 className="relative font-bold text-white leading-[1.1] tracking-tight">
+            <h1 className={cn(
+              "relative font-bold text-white leading-[1.1] tracking-tight",
+              "opacity-0 animate-fade-in",
+              "motion-reduce:animate-none motion-reduce:opacity-100"
+            )}>
               <span 
-                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl block"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl block"
                 style={{
-                  textShadow: '0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25)'
+                  textShadow: '0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25)',
+                  transform: 'translateZ(0)'
                 }}
               >
                 Turkish
               </span>
-              <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mt-2 bg-gradient-to-r from-[#E31837] to-[#C41230] bg-clip-text text-transparent transform-gpu transition-transform duration-500">
+              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mt-2 bg-gradient-to-r from-[#E31837] to-[#C41230] bg-clip-text text-transparent">
                 Airlines
               </span>
             </h1>
 
-            <div className="mt-12 transform-gpu transition-all duration-500 hover:translate-y-[-4px]">
+            <div className={cn(
+              "mt-8 sm:mt-12 transform-gpu transition-all duration-500 hover:translate-y-[-4px]",
+              "pointer-events-auto opacity-0 animate-fade-in",
+         
+              "relative bottom-[-180px] sm:bottom-auto",
+              "motion-reduce:animate-none motion-reduce:opacity-100"
+            )}
+              style={{ animationDelay: '200ms' }}
+            >
               <HeroPromoCard 
-                title="Promo Codes"
-                subtitle="Exclusive deals & discounts"
+                title={t('promo.title')}
+                subtitle={t('promo.subtitle')}
                 discount="25"
                 code="TURKFLY2024"
               />
@@ -93,12 +115,24 @@
 
         <button
           onClick={onScrollClick}
-          className="absolute left-1/2 transform -translate-x-1/2 bottom-[10%] z-30 bg-[#E31837] hover:bg-[#C41230] text-white px-8 py-4 rounded-full transition-all duration-300 ease-out hover:scale-105 flex items-center gap-2 pointer-events-auto shadow-lg hover:shadow-xl opacity-0 animate-fade-in-up animate-float"
+          className={cn(
+            "absolute left-1/2 bottom-[5%] z-30",
+            "bg-[#E31837] hover:bg-[#C41230] text-white",
+            "px-6 sm:px-8 py-3 sm:py-4 rounded-full",
+            "transition-all duration-300 ease-out",
+            "hover:scale-105 flex items-center gap-2",
+            "pointer-events-auto shadow-lg hover:shadow-xl",
+            "opacity-0 animate-fade-in-up animate-float",
+            "transform -translate-x-1/2",
+            "motion-reduce:animate-none motion-reduce:opacity-100"
+          )}
           style={{ animationDelay: '500ms' }}
         >
-          <span className="text-lg font-medium">Explore Deals</span>
+          <span className="text-base sm:text-lg font-medium whitespace-nowrap">
+            {t('cta.exploreDeal')}
+          </span>
           <svg 
-            className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1" 
+            className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-y-1" 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"

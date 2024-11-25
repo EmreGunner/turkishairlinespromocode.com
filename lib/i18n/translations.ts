@@ -35,9 +35,13 @@ export const translations = {
       bookingPeriod: "Booking Period",
       travelPeriod: "Travel Period",
       blackoutDates: "Blackout Dates",
-      lastChecked: "Last checked"
+      lastChecked: "Last checked",
+      title: "Promo Codes",
+      subtitle: "Exclusive deals & discounts"
     },
-    disclaimer: "This website is not affiliated with Turkish Airlines. We are an independent service that helps travelers find the best deals.",
+    disclaimer: {
+      independent: "This is an independent service not affiliated with Turkish Airlines"
+    },
     footer: {
       about: {
         title: "About This Site",
@@ -61,6 +65,9 @@ export const translations = {
         visitButton: "Visit Turkish Airlines"
       },
       copyright: "© {year} PromoCodeFinder. This is an independent website. Not affiliated with Turkish Airlines."
+    },
+    cta: {
+      exploreDeal: "Explore Deals"
     }
   },
   tr: {
