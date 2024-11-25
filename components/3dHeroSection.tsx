@@ -42,7 +42,7 @@
     }, []);
 
     return (
-      <section className="relative w-full h-screen bg-black overflow-hidden group">
+      <section className="relative w-full h-screen bg-black overflow-hidden">
         <div className="absolute top-0 left-0 w-full z-50 bg-amber-50 border-b border-amber-200">
           <div className="container mx-auto px-4 py-2 text-amber-800 text-sm text-center">
             {t('disclaimer.independent')}
@@ -69,27 +69,28 @@
           </div>
         </Suspense>
 
-        <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/20 via-black/10 to-transparent" />
-        </div>
-
-        <div className="relative z-30 container mx-auto px-4 pt-28 md:pt-40 pointer-events-none">
-          <div className="max-w-[800px] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <div className="relative z-30 container mx-auto px-4 pt-20 sm:pt-24 md:pt-28 lg:pt-32 xl:pt-40">
+          <div className="max-w-[800px]">
             <h1 className={cn(
               "relative font-bold text-white leading-[1.1] tracking-tight",
               "animate-fade-in",
               "motion-reduce:animate-none"
             )}>
               <span 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl block"
+                className="text-6xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl block"
                 style={{
-                  textShadow: '0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25)',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.2)',
                   transform: 'translateZ(0)'
                 }}
               >
                 Turkish
               </span>
-              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mt-2 bg-gradient-to-r from-[#E31837] to-[#C41230] bg-clip-text text-transparent">
+              <span 
+                className={cn(
+                  "block text-5xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl mt-2",
+                  "bg-gradient-to-r from-[#E31837] to-[#C41230] bg-clip-text text-transparent"
+                )}
+              >
                 Airlines
               </span>
             </h1>
@@ -130,11 +131,11 @@
           )}
           style={{ animationDelay: '500ms' }}
         >
-          <span className="text-base sm:text-lg font-medium whitespace-nowrap">
+          <span className="text-base sm:text-base md:text-lg font-medium whitespace-nowrap">
             {t('cta.exploreDeal')}
           </span>
           <svg 
-            className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-y-1" 
+            className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 hover:translate-y-1" 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
