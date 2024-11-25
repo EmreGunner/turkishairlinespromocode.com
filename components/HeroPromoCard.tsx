@@ -30,7 +30,7 @@ export default function HeroPromoCard({
   };
 
   return (
-    <div className="relative ml-auto mr-8 mb-64 sm:mb-24 mb-6">
+    <div className="relative ml-auto mr-8 mb-64 sm:mb-24 mb-6 z-40 pointer-events-auto">
       {/* Desktop Version */}
       <div className="hidden sm:block w-[320px]">
         <div className="bg-[#E81932] rounded-xl shadow-lg">

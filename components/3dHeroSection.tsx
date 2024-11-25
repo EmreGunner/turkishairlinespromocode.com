@@ -42,7 +42,7 @@
     }, []);
 
     return (
-      <section className="relative w-full h-screen bg-black overflow-hidden">
+      <section className="relative w-full h-screen bg-black overflow-hidden group">
         <div className="absolute top-0 left-0 w-full z-50 bg-amber-50 border-b border-amber-200">
           <div className="container mx-auto px-4 py-2 text-amber-800 text-sm text-center">
             {t('disclaimer.independent')}
@@ -69,16 +69,16 @@
           </div>
         </Suspense>
 
-        <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/20 via-black/10 to-transparent" />
         </div>
 
         <div className="relative z-30 container mx-auto px-4 pt-28 md:pt-40 pointer-events-none">
-          <div className="max-w-[800px]">
+          <div className="max-w-[800px] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <h1 className={cn(
               "relative font-bold text-white leading-[1.1] tracking-tight",
-              "opacity-0 animate-fade-in",
-              "motion-reduce:animate-none motion-reduce:opacity-100"
+              "animate-fade-in",
+              "motion-reduce:animate-none"
             )}>
               <span 
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl block"
@@ -94,13 +94,14 @@
               </span>
             </h1>
 
-            <div className={cn(
-              "mt-8 sm:mt-12 transform-gpu transition-all duration-500 hover:translate-y-[-4px]",
-              "pointer-events-auto opacity-0 animate-fade-in",
-         
-              "relative bottom-[-180px] sm:bottom-auto",
-              "motion-reduce:animate-none motion-reduce:opacity-100"
-            )}
+            <div 
+              className={cn(
+                "mt-8 sm:mt-12 transform-gpu transition-all duration-500 hover:translate-y-[-4px]",
+                "pointer-events-auto animate-fade-in",
+                "relative bottom-[-180px] sm:bottom-auto",
+                "motion-reduce:animate-none",
+                "opacity-100 hover:opacity-100"
+              )}
               style={{ animationDelay: '200ms' }}
             >
               <HeroPromoCard 
@@ -122,9 +123,10 @@
             "transition-all duration-300 ease-out",
             "hover:scale-105 flex items-center gap-2",
             "pointer-events-auto shadow-lg hover:shadow-xl",
-            "opacity-0 animate-fade-in-up animate-float",
+            "animate-fade-in-up animate-float",
             "transform -translate-x-1/2",
-            "motion-reduce:animate-none motion-reduce:opacity-100"
+            "motion-reduce:animate-none",
+            "opacity-0 group-hover:opacity-100"
           )}
           style={{ animationDelay: '500ms' }}
         >
