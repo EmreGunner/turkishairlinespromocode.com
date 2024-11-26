@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Suspense } from 'react';
 
 // Optimize font loading
@@ -25,11 +27,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className="light">
-      <body className={inter.className}>
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <ThemeProvider>
-          <Suspense fallback={<div className="min-h-screen bg-gray-50" />}>
-            {children}
-          </Suspense>
+          <Navbar />
+          <main className="flex-1">
+            <Suspense fallback={<div className="min-h-screen bg-gray-50" />}>
+              {children}
+            </Suspense>
+          </main>
+          <Footer />
           <Suspense>
             <Toaster />
           </Suspense>

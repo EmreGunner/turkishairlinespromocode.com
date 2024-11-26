@@ -14,7 +14,6 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import ThreeDHeroSection from "@/components/3dHeroSection";
 import PromoCard from "@/components/PromoCard";
-import Footer from "@/components/Footer";
 import allPromos from "@/lib/data/promos";
 
 const categories = [
@@ -63,9 +62,9 @@ export default function Home() {
 
   // Handle scroll to content when clicking scroll indicator
   const handleScrollToContent = () => {
-    const contentSection = document.getElementById('content-section');
-    if (contentSection) {
-      contentSection.scrollIntoView({ behavior: 'smooth' });
+    const searchSection = document.getElementById('search-section');
+    if (searchSection) {
+      searchSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -93,7 +92,7 @@ export default function Home() {
     
       <ThreeDHeroSection onScrollClick={handleScrollToContent} />
 
-      <section id="content-section" className="bg-gray-50">
+      <section id="search-section" className="bg-gray-50 scroll-mt-16">
         <div className="bg-gradient-to-r from-[#E81932] to-[#C41230] text-white">
           <div className="container mx-auto px-4 py-16">
             <div className="max-w-4xl mx-auto">
@@ -197,8 +196,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </main>
   );
 }
