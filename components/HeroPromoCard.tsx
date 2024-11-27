@@ -8,6 +8,11 @@ interface PromoCardProps {
 }
 
 export default function HeroPromoCard({ onExploreClick }: PromoCardProps) {
+  const handleExploreClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onExploreClick();
+  };
+
   return (
     <div className="relative ml-auto mr-4 sm:mr-8 mb-32 sm:mb-16 z-40 pointer-events-auto">
       {/* Desktop Version */}
@@ -25,7 +30,7 @@ export default function HeroPromoCard({ onExploreClick }: PromoCardProps) {
 
           <div className="bg-white p-4 rounded-b-lg">
             <button
-              onClick={onExploreClick}
+              onClick={handleExploreClick}
               className={cn(
                 "w-full bg-[#E81932] hover:bg-[#C41230] text-white",
                 "py-3 px-4 rounded-md transition-all duration-300",
@@ -56,7 +61,7 @@ export default function HeroPromoCard({ onExploreClick }: PromoCardProps) {
 
           <div className="bg-white p-3 rounded-b-lg">
             <button
-              onClick={onExploreClick}
+              onClick={handleExploreClick}
               className={cn(
                 "w-full bg-[#E81932] hover:bg-[#C41230] text-white",
                 "py-2.5 px-3 rounded-md transition-all duration-300",

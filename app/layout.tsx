@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Suspense } from 'react';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 // Optimize font loading
 const inter = Inter({ 
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="light">
       <body className={`${inter.className} flex flex-col min-h-screen`}>
+        <GoogleAnalytics />
         <ThemeProvider>
           <Navbar />
           <main className="flex-1">
