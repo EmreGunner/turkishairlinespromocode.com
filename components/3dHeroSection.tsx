@@ -43,16 +43,17 @@ export default function ThreeDHeroSection({ onScrollClick }: ThreeDHeroSectionPr
 
   const handleScrollToContent = () => {
     const searchSection = document.getElementById('search-section');
-    const navbar = document.querySelector('nav'); // Assuming your navbar has a nav tag
+    const navbar = document.querySelector('nav');
     
     if (searchSection && navbar) {
       const navbarHeight = navbar.getBoundingClientRect().height;
-      const yOffset = -navbarHeight; // Offset by navbar height
+      const searchSectionTop = searchSection.getBoundingClientRect().top;
       
-      const y = searchSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const additionalOffset = 20;
+      const totalOffset = navbarHeight + additionalOffset;
       
       window.scrollTo({
-        top: y,
+        top: window.pageYOffset + searchSectionTop - totalOffset,
         behavior: 'smooth'
       });
     }

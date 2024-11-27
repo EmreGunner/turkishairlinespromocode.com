@@ -41,6 +41,25 @@ export default function ThreeDHeroSection({ onScrollClick }: ThreeDHeroSectionPr
     }
   }, []);
 
+  const handleScrollToContent = () => {
+    const searchSection = document.getElementById('search-section');
+    const navbar = document.querySelector('nav');
+    
+    if (searchSection && navbar) {
+      const navbarHeight = navbar.getBoundingClientRect().height;
+      const searchSectionTop = searchSection.getBoundingClientRect().top;
+      
+      // Additional offset for better positioning on mobile
+      const additionalOffset = window.innerWidth < 768 ? 16 : 20;
+      const totalOffset = navbarHeight + additionalOffset;
+      
+      window.scrollTo({
+        top: window.pageYOffset + searchSectionTop - totalOffset,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section className="relative w-full h-screen bg-black overflow-hidden">
       <Script 
