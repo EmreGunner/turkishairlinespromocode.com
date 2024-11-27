@@ -44,9 +44,9 @@ export default function ThreeDHeroSection({ onScrollClick }: ThreeDHeroSectionPr
   return (
     <section className="relative w-full h-screen bg-black overflow-hidden">
       <Script 
-        type="module" 
         src="https://unpkg.com/@splinetool/viewer@1.9.45/build/spline-viewer.js"
-        strategy="beforeInteractive"
+        strategy="lazyOnload"
+        type="module"
         onError={() => setHasError(true)}
       />
 

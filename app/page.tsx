@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
-import dynamic from "next/dynamic";
+import { useState, useEffect } from "react";
 import { Search, Plane, Tag, Clock, AlertTriangle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,6 +12,9 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import ThreeDHeroSection from "@/components/3dHeroSection";
+import MobileHeroSection from "@/components/MobileHeroSection";
+import useMediaQuery from "@/hooks/useMediaQuery";
 import PromoCard from "@/components/PromoCard";
 import allPromos from "@/lib/data/promos";
 
@@ -54,52 +56,19 @@ interface Promo {
   blackoutDates?: string[];
 }
 
-// Dynamically import components with loading fallbacks
-const ThreeDHeroSection = dynamic(() => import("@/components/3dHeroSection"), {
-  loading: () => <HeroLoadingFallback />,
-  ssr: false // Disable server-side rendering for this component
-});
-
-const MobileHeroSection = dynamic(() => import("@/components/MobileHeroSection"), {
-  loading: () => <HeroLoadingFallback />,
-  ssr: false
-});
-
-// Loading fallback component
-function HeroLoadingFallback() {
-  return (
-    <div className="w-full h-screen bg-gradient-to-b from-gray-900 to-gray-800 animate-pulse">
-      <div className="container mx-auto px-4 pt-20">
-        <div className="w-48 h-12 bg-gray-700 rounded mb-4" />
-        <div className="w-64 h-8 bg-gray-700 rounded" />
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isClient, setIsClient] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("discount");
   const [isSearching, setIsSearching] = useState(false);
 
+  // Add screen size detection
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const [mounted, setMounted] = useState(false);
+
+  // Handle hydration mismatch
   useEffect(() => {
-    setIsClient(true);
-    
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // 768px is typical md breakpoint
-    };
-
-    // Initial check
-    checkMobile();
-
-    // Add event listener for window resize
-    window.addEventListener('resize', checkMobile);
-
-    // Cleanup
-    return () => window.removeEventListener('resize', checkMobile);
+    setMounted(true);
   }, []);
 
   // Handle scroll to content when clicking scroll indicator
@@ -129,24 +98,18 @@ export default function Home() {
     setIsSearching(searchQuery.length > 0);
   }, [searchQuery]);
 
-  // Only render hero section after client-side hydration
-  const renderHeroSection = () => {
-    if (!isClient) return <HeroLoadingFallback />;
-    
-    return (
-      <Suspense fallback={<HeroLoadingFallback />}>
-        {isMobile ? (
-          <MobileHeroSection onScrollClick={handleScrollToContent} />
-        ) : (
-          <ThreeDHeroSection onScrollClick={handleScrollToContent} />
-        )}
-      </Suspense>
-    );
-  };
-
   return (
     <main className="min-h-screen">
-      {renderHeroSection()}
+      {/* Conditional hero section rendering */}
+      {mounted && (
+        <>
+          {isMobile ? (
+            <MobileHeroSection onScrollClick={handleScrollToContent} />
+          ) : (
+            <ThreeDHeroSection onScrollClick={handleScrollToContent} />
+          )}
+        </>
+      )}
 
       <section id="search-section" className="bg-gray-50 scroll-mt-16">
         <div className="bg-gradient-to-r from-[#E81932] to-[#C41230] text-white">

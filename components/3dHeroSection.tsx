@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import Script from 'next/script';
-import HeroPromoCard from './HeroPromoCard';
+import HeroPromoCard from './DesktopHeroPromoCard';
 import { Loader2 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -44,9 +44,9 @@ export default function ThreeDHeroSection({ onScrollClick }: ThreeDHeroSectionPr
   return (
     <section className="relative w-full h-screen bg-black overflow-hidden">
       <Script 
-        type="module" 
         src="https://unpkg.com/@splinetool/viewer@1.9.45/build/spline-viewer.js"
-        strategy="beforeInteractive"
+        strategy="lazyOnload"
+        type="module"
         onError={() => setHasError(true)}
       />
 
@@ -63,18 +63,17 @@ export default function ThreeDHeroSection({ onScrollClick }: ThreeDHeroSectionPr
         </div>
       </Suspense>
 
-      <div className="relative z-30 container mx-auto px-4 pt-16 sm:pt-20">
-        <div className="max-w-[1200px] mx-auto text-center">
+      <div className="relative z-30 container mx-auto px-4 pt-20 sm:pt-24 md:pt-28 lg:pt-32 xl:pt-40">
+        <div className="max-w-[800px]">
           <h1 className={cn(
-            "relative inline-flex items-center gap-2",
-            "font-bold text-white leading-none tracking-tight",
+            "relative font-bold text-white leading-[1.1] tracking-tight",
             "animate-fade-in",
             "motion-reduce:animate-none"
           )}>
             <span 
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+              className="text-6xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl block"
               style={{
-                textShadow: '0 2px 4px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.1)',
+                textShadow: '0 2px 4px rgba(0,0,0,0.2)',
                 transform: 'translateZ(0)'
               }}
             >
@@ -82,34 +81,67 @@ export default function ThreeDHeroSection({ onScrollClick }: ThreeDHeroSectionPr
             </span>
             <span 
               className={cn(
-                "text-4xl sm:text-5xl md:text-6xl lg:text-7xl",
+                "block text-5xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl mt-2",
                 "bg-gradient-to-r from-[#E31837] to-[#C41230] bg-clip-text text-transparent"
               )}
-              style={{
-                textShadow: '0 2px 4px rgba(0,0,0,0.1)'
-              }}
             >
               Airlines
             </span>
           </h1>
+
+          <div 
+            className={cn(
+              "mt-8 sm:mt-12 transform-gpu transition-all duration-500 hover:translate-y-[-4px]",
+              "pointer-events-auto animate-fade-in",
+              "relative bottom-[-180px] sm:bottom-auto",
+              "motion-reduce:animate-none",
+              "opacity-100 hover:opacity-100"
+            )}
+            style={{ animationDelay: '200ms' }}
+          >
+            <HeroPromoCard 
+              title={t('promo.title')}
+              subtitle={t('promo.subtitle')}
+              discount="25"
+              code="TURKFLY2024"
+            />
+          </div>
         </div>
       </div>
 
-      <div 
+      <button
+        onClick={onScrollClick}
         className={cn(
-          "absolute left-1/2 -translate-x-1/2",
-          "-bottom-[100px]",
-          "sm:-bottom-[25px]",
-          "z-30"
+          "absolute left-1/2 bottom-[5%] z-30",
+          "bg-[#E31837] hover:bg-[#C41230] text-white",
+          "px-6 sm:px-8 py-3 sm:py-4 rounded-full",
+          "transition-all duration-300 ease-out",
+          "hover:scale-105 flex items-center gap-2",
+          "pointer-events-auto shadow-lg hover:shadow-xl",
+          "animate-fade-in-up animate-float",
+          "transform -translate-x-1/2",
+          "motion-reduce:animate-none",
+          "opacity-0 group-hover:opacity-100"
         )}
-        style={{ 
-          marginBottom: `calc(4px + env(safe-area-inset-bottom, 0px))`,
-        }}
+        style={{ animationDelay: '500ms' }}
       >
-        <HeroPromoCard 
-          onExploreClick={onScrollClick}
-        />
-      </div>
+        <span className="text-base sm:text-base md:text-lg font-medium whitespace-nowrap">
+          {t('cta.exploreDeal')}
+        </span>
+        <svg 
+          className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 hover:translate-y-1" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          />
+        </svg>
+      </button>
 
       <style jsx>{`
         @keyframes float {
