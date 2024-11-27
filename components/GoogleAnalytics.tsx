@@ -1,17 +1,27 @@
 "use client";
 
 import Script from "next/script";
-
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export default function GoogleAnalytics() {
-  if (!GA_MEASUREMENT_ID) return null;
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Track page views when the route changes
+  useEffect(() => {
+    if (pathname && window.gtag) {
+      window.gtag("config", "G-T7T5D68ZMY", {
+        page_path: pathname + searchParams.toString(),
+      });
+    }
+  }, [pathname, searchParams]);
 
   return (
     <>
       <Script
         strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        src="https://www.googletagmanager.com/gtag/js?id=G-T7T5D68ZMY"
       />
       <Script
         id="google-analytics"
@@ -21,11 +31,7 @@ export default function GoogleAnalytics() {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}', {
-              page_path: window.location.pathname,
-              transport_url: 'https://ssl.google-analytics.com',
-              cookie_flags: 'SameSite=None;Secure'
-            });
+            gtag('config', 'G-T7T5D68ZMY');
           `,
         }}
       />

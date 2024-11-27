@@ -63,7 +63,7 @@ export default function ThreeDHeroSection({ onScrollClick }: ThreeDHeroSectionPr
         </div>
       </Suspense>
 
-      <div className="relative z-30 container mx-auto px-4 pt-16 sm:pt-20">
+      <div className="relative z-30 container mx-auto px-4 pt-32 sm:pt-20">
         <div className="max-w-[1200px] mx-auto text-center">
           <h1 className={cn(
             "relative inline-flex items-center gap-2",
