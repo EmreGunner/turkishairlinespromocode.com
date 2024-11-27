@@ -71,7 +71,16 @@ export default function ThreeDHeroSection({ onScrollClick }: ThreeDHeroSectionPr
             "animate-fade-in",
             "motion-reduce:animate-none"
           )}>
-             <span 
+            <span 
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+              style={{
+                textShadow: '0 2px 4px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.1)',
+                transform: 'translateZ(0)'
+              }}
+            >
+              Turkish
+            </span>
+            <span 
               className={cn(
                 "text-4xl sm:text-5xl md:text-6xl lg:text-7xl",
                 "bg-gradient-to-r from-[#E31837] to-[#C41230] bg-clip-text text-transparent"
@@ -80,18 +89,8 @@ export default function ThreeDHeroSection({ onScrollClick }: ThreeDHeroSectionPr
                 textShadow: '0 2px 4px rgba(0,0,0,0.1)'
               }}
             >
-              Turkish
-            </span>
-            <span 
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
-              style={{
-                textShadow: '0 2px 4px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.1)',
-                transform: 'translateZ(0)'
-              }}
-            >
               Airlines
             </span>
-         
           </h1>
         </div>
       </div>
