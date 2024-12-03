@@ -81,7 +81,7 @@ export default function Footer() {
                   href="/submit-code" 
                   className="text-sm hover:text-white transition-colors"
                 >
-                  Submit a Code
+                  Submit a Promo Code
                 </Link>
               </li>
               <li>
