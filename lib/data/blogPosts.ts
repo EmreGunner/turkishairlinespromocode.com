@@ -52,6 +52,16 @@ Remember to always verify the terms and conditions of any promo code before book
   },
 ];
 
+export async function generateStaticParams() {
+  // This could be replaced with an API call in a real application
+  return blogPosts.map((post) => ({
+    slug: post.slug,
+  }))
+}
+
 export async function getBlogPost(slug: string): Promise<BlogPost | undefined> {
-  return blogPosts.find(post => post.slug === slug);
+  // In a real application, this would fetch from an API
+  // For now, we'll simulate a delay to show loading states
+  await new Promise(resolve => setTimeout(resolve, 100))
+  return blogPosts.find(post => post.slug === slug)
 } 

@@ -7,6 +7,7 @@ import { getBlogPost, blogPosts } from '@/lib/data/blogPosts'
 import PageTransition from '@/components/PageTransition'
 import { Markdown } from '@/components/Markdown'
 import { JsonLd } from '@/components/JsonLd'
+import { BlogImage } from '@/components/BlogImage'
 
 interface Props {
   params: Promise<{
@@ -94,15 +95,11 @@ export default async function BlogPost({ params }: Props) {
           </Link>
 
           <article className="max-w-3xl mx-auto bg-white rounded-xl shadow-sm p-8">
-            <div className="relative h-[400px] w-full mb-8 rounded-lg overflow-hidden">
-              <Image
-                src={post.image}
-                alt={`Featured image for article: ${post.title}`}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+            <BlogImage
+              src={post.image}
+              alt={`Featured image for article: ${post.title}`}
+              priority
+            />
 
             <div className="flex items-center gap-4 mb-6 text-sm text-gray-500">
               <span className="flex items-center gap-1">
