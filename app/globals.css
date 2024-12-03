@@ -107,3 +107,24 @@
 .premium-button:hover::after {
   @apply opacity-10;
 }
+
+/* Add this to your globals.css */
+.markdown-content {
+  @apply max-w-none text-lg;
+}
+
+.markdown-content > *:first-child {
+  @apply mt-0;
+}
+
+.markdown-content > *:last-child {
+  @apply mb-0;
+}
+
+.markdown-content a {
+  @apply text-[#E31837] no-underline hover:underline;
+}
+
+.markdown-content hr {
+  @apply my-8 border-gray-200;
+}

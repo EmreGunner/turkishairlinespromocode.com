@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import PageTransition from '@/components/PageTransition'
 
 export const metadata: Metadata = {
   title: 'Quick Links | Turkish Airlines Promo Codes',
@@ -42,35 +43,37 @@ export default function QuickLinksPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Quick Links</h1>
-        <p className="text-gray-600 mb-8 text-lg">
-          Find the best Turkish Airlines promo codes for your next flight
-        </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {links.map((link, index) => (
-            <Link 
-              key={index}
-              href={link.href}
-              className="group p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
-            >
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    {link.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {link.description}
-                  </p>
+    <PageTransition>
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Quick Links</h1>
+          <p className="text-gray-600 mb-8 text-lg">
+            Find the best Turkish Airlines promo codes for your next flight
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {links.map((link, index) => (
+              <Link 
+                key={index}
+                href={link.href}
+                className="group p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      {link.title}
+                    </h3>
+                    <p className="text-gray-600">
+                      {link.description}
+                    </p>
+                  </div>
+                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-[#E31837] transition-colors" />
                 </div>
-                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-[#E31837] transition-colors" />
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </PageTransition>
   )
 } 

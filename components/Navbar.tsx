@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X, Plane, Search, AlertCircle } from 'lucide-react';
@@ -17,21 +17,58 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
+  const handleSearch = () => {
+    if (pathname === '/') {
+      // If we're on home page, just scroll to search
+      const searchSection = document.getElementById('search-section');
+      if (searchSection) {
+        searchSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // If we're on another page, navigate to home and then scroll
+      router.push('/?search=true');
+    }
+    setIsOpen(false);
+  };
+
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'How It Works', href: '/how-it-works' },
+    { 
+      name: 'Home', 
+      href: '/',
+      icon: Plane 
+    },
+    { 
+      name: 'How It Works', 
+      href: '/how-it-works',
+      icon: null
+    },
+    { 
+      name: 'Blog', 
+      href: '/blog',
+      icon: null
+    },
     { 
       name: 'Search', 
       href: '#',
-      onClick: () => {
+      icon: Search,
+      onClick: handleSearch
+    }
+  ];
+
+  // Add effect to handle search parameter
+  useEffect(() => {
+    if (pathname === '/' && window.location.search.includes('search=true')) {
+      // Remove the search parameter
+      window.history.replaceState({}, '', '/');
+      // Scroll to search section after a short delay to ensure content is loaded
+      setTimeout(() => {
         const searchSection = document.getElementById('search-section');
         if (searchSection) {
           searchSection.scrollIntoView({ behavior: 'smooth' });
         }
-        setIsOpen(false);
-      }
+      }, 100);
     }
-  ];
+  }, [pathname]);
 
   return (
     <div className="absolute w-full top-0 z-[40]">
@@ -78,9 +115,9 @@ export default function Navbar() {
                         : "text-gray-700/90 hover:text-[#E31837] hover:bg-white/50"
                     )}
                   >
-                    {item.name === 'Search' ? (
+                    {item.icon ? (
                       <div className="flex items-center gap-1.5">
-                        <Search className="h-4 w-4" />
+                        <item.icon className="h-4 w-4" />
                         <span>{item.name}</span>
                       </div>
                     ) : (
@@ -131,9 +168,9 @@ export default function Navbar() {
                         : "text-gray-700/90 hover:bg-white/50 hover:text-[#E31837]"
                     )}
                   >
-                    {item.name === 'Search' ? (
+                    {item.icon ? (
                       <div className="flex items-center gap-2">
-                        <Search className="h-4 w-4" />
+                        <item.icon className="h-4 w-4" />
                         <span>{item.name}</span>
                       </div>
                     ) : (
