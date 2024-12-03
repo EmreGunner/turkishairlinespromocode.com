@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
+import { JsonLd } from '@/components/JsonLd'
 
 interface BreadcrumbItem {
   label: string
